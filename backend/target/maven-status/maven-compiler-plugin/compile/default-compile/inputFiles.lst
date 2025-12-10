@@ -1,0 +1,15 @@
+D:\CampusTrack\backend\src\main\java\com\campusmatrix\config\SecurityConfig.java
+D:\CampusTrack\backend\src\main\java\com\campusmatrix\controller\AuthController.java
+D:\CampusTrack\backend\src\main\java\com\campusmatrix\model\User.java
+D:\CampusTrack\backend\src\main\java\com\campusmatrix\dto\LoginRequest.java
+D:\CampusTrack\backend\src\main\java\com\campusmatrix\service\AuthService.java
+D:\CampusTrack\backend\src\main\java\com\campusmatrix\controller\UserController.java
+D:\CampusTrack\backend\src\main\java\com\campusmatrix\service\CustomUserDetailsService.java
+D:\CampusTrack\backend\src\main\java\com\campusmatrix\service\JwtService.java
+D:\CampusTrack\backend\src\main\java\com\campusmatrix\dto\AuthResponse.java
+D:\CampusTrack\backend\src\main\java\com\campusmatrix\dto\RegisterRequest.java
+D:\CampusTrack\backend\src\main\java\com\campusmatrix\dto\UserDTO.java
+D:\CampusTrack\backend\src\main\java\com\campusmatrix\CampusMatrixApplication.java
+D:\CampusTrack\backend\src\main\java\com\campusmatrix\config\JwtAuthenticationFilter.java
+D:\CampusTrack\backend\src\main\java\com\campusmatrix\service\UserService.java
+D:\CampusTrack\backend\src\main\java\com\campusmatrix\repository\UserRepository.java

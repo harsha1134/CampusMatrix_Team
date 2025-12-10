@@ -1,0 +1,17 @@
+com\campusmatrix\CampusMatrixApplication.class
+com\campusmatrix\dto\AuthResponse.class
+com\campusmatrix\repository\UserRepository.class
+com\campusmatrix\model\User.class
+com\campusmatrix\model\User$Role.class
+com\campusmatrix\dto\AuthResponse$AuthResponseBuilder.class
+com\campusmatrix\controller\AuthController.class
+com\campusmatrix\service\AuthService.class
+com\campusmatrix\config\JwtAuthenticationFilter.class
+com\campusmatrix\dto\RegisterRequest.class
+com\campusmatrix\dto\UserDTO.class
+com\campusmatrix\service\CustomUserDetailsService.class
+com\campusmatrix\controller\UserController.class
+com\campusmatrix\config\SecurityConfig.class
+com\campusmatrix\dto\LoginRequest.class
+com\campusmatrix\service\JwtService.class
+com\campusmatrix\service\UserService.class

@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusMatrix - Lost & Found</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    :root {
+      --jet-stream: #BDD9D7;
+      --blue-whale: #03363D;
+      --light-blue: #0ea5e9;
+      --light-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-light: #64748b;
+      --success: #10b981;
+      --error: #ef4444;
+      --warning: #f59e0b;
+    }
+    
+    body {
+      background-color: var(--light-bg);
+      color: var(--blue-whale);
+    }
+
+    /* Container */
+    .lost-found-container {
+      padding: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Page Header */
+    .page-header {
+      margin-bottom: 30px;
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: var(--blue-whale);
+    }
+
+    .page-header p {
+      color: var(--text-light);
+      font-size: 1.1rem;
+      max-width: 600px;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      flex: 1;
+      min-width: 200px;
+      padding: 25px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 2px solid rgba(189, 217, 215, 0.5);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .action-btn.lost {
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .action-btn.found {
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .action-btn.lost:hover {
+      background-color: rgba(239, 68, 68, 0.05);
+    }
+
+    .action-btn.found:hover {
+      background-color: rgba(16, 185, 129, 0.05);
+    }
+
+    .action-icon {
+      font-size: 3rem;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .action-btn.lost .action-icon {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: var(--error);
+    }
+
+    .action-btn.found .action-icon {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+
+    .action-btn h3 {
+      font-size: 1.5rem;
+      margin: 0;
+      color: var(--blue-whale);
+    }
+
+    .action-btn p {
+      color: var(--text-light);
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    /* Forms Container */
+    .forms-container {
+      display: none;
+      margin-bottom: 40px;
+    }
+
+    .forms-container.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .form-header h2 {
+      font-size: 2rem;
+      color: var(--blue-whale);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .close-form {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-light);
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 50%;
+      transition: all 0.3s;
+    }
+
+    .close-form:hover {
+      background-color: rgba(189, 217, 215, 0.2);
+      color: var(--blue-whale);
+    }
+
+    /* Form Grid */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    @media (max-width: 900px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Report Form */
+    .report-form {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(189, 217, 215, 0.5);
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--blue-whale);
+      font-size: 0.95rem;
+    }
+
+    .form-group label.required::after {
+      content: " *";
+      color: var(--error);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid rgba(189, 217, 215, 0.5);
+      border-radius: 10px;
+      font-size: 1rem;
+      background-color: white;
+      color: var(--blue-whale);
+      transition: all 0.3s;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--jet-stream);
+      box-shadow: 0 0 0 3px rgba(189, 217, 215, 0.3);
+    }
+
+    .form-control.select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2303363D' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 12px;
+      padding-right: 40px;
+    }
+
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    /* Image Upload */
+    .image-upload-container {
+      margin-bottom: 25px;
+    }
+
+    .image-upload-area {
+      border: 3px dashed rgba(189, 217, 215, 0.5);
+      border-radius: 12px;
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background-color: rgba(189, 217, 215, 0.05);
+    }
+
+    .image-upload-area:hover {
+      border-color: var(--jet-stream);
+      background-color: rgba(189, 217, 215, 0.1);
+    }
+
+    .image-upload-area.dragover {
+      border-color: var(--jet-stream);
+      background-color: rgba(189, 217, 215, 0.2);
+    }
+
+    .upload-icon {
+      font-size: 3rem;
+      color: var(--jet-stream);
+      margin-bottom: 15px;
+    }
+
+    .image-upload-area p {
+      color: var(--text-light);
+      margin-bottom: 10px;
+    }
+
+    .browse-btn {
+      display: inline-block;
+      padding: 10px 25px;
+      background-color: var(--jet-stream);
+      color: var(--blue-whale);
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+    }
+
+    .browse-btn:hover {
+      background-color: #a8cfcb;
+      transform: translateY(-2px);
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .image-preview {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .image-preview.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .preview-image {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+
+    .remove-image {
+      display: inline-block;
+      padding: 8px 20px;
+      background-color: rgba(239, 68, 68, 0.1);
+      color: var(--error);
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+    }
+
+    .remove-image:hover {
+      background-color: rgba(239, 68, 68, 0.2);
+    }
+
+    .file-info {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      margin-top: 10px;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background-color: var(--jet-stream);
+      color: var(--blue-whale);
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .submit-btn:hover {
+      background-color: #a8cfcb;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(3, 54, 61, 0.1);
+    }
+
+    .submit-btn.lost {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: var(--error);
+    }
+
+    .submit-btn.lost:hover {
+      background-color: rgba(239, 68, 68, 0.2);
+    }
+
+    .submit-btn.found {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+
+    .submit-btn.found:hover {
+      background-color: rgba(16, 185, 129, 0.2);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(189, 217, 215, 0.5);
+      margin-top: 40px;
+    }
+
+    .empty-state-icon {
+      font-size: 4rem;
+      color: var(--jet-stream);
+      margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: var(--blue-whale);
+    }
+
+    .empty-state p {
+      color: var(--text-light);
+      max-width: 500px;
+      margin: 0 auto 25px;
+      font-size: 1.1rem;
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .lost-found-container {
+        padding: 20px;
+      }
+      
+      .page-header h1 {
+        font-size: 2rem;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .action-btn {
+        min-width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .form-header h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Lost & Found Page Content -->
+  <div class="lost-found-container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1><i class="fas fa-search" style="color: var(--jet-stream);"></i> Lost & Found</h1>
+      <p>Help the campus community by reporting lost items or items you've found.</p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <div class="action-btn lost" id="reportLostBtn">
+        <div class="action-icon">
+          <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <h3>Report Lost Item</h3>
+        <p>Can't find something? Report it here so others can help.</p>
+      </div>
+
+      <div class="action-btn found" id="reportFoundBtn">
+        <div class="action-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h3>Report Found Item</h3>
+        <p>Found something that's not yours? Help return it to the owner.</p>
+      </div>
+    </div>
+
+    <!-- Lost Item Form -->
+    <div class="forms-container" id="lostFormContainer">
+      <div class="form-header">
+        <h2><i class="fas fa-exclamation-circle" style="color: var(--error);"></i> Report Lost Item</h2>
+        <button class="close-form" id="closeLostForm">&times;</button>
+      </div>
+      
+      <div class="form-grid">
+        <div class="report-form">
+          <form id="lostItemForm">
+            <div class="form-group">
+              <label for="lostItemName" class="required">Item Name</label>
+              <input type="text" id="lostItemName" class="form-control" placeholder="e.g., Scientific Calculator, Wallet, Keys" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="lostCategory" class="required">Category</label>
+              <select id="lostCategory" class="form-control select" required>
+                <option value="" disabled selected>Select category</option>
+                <option value="electronics">Electronics</option>
+                <option value="books">Books & Notes</option>
+                <option value="accessories">Accessories</option>
+                <option value="id">ID Cards/Documents</option>
+                <option value="clothing">Clothing</option>
+                <option value="keys">Keys</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="lostLocation" class="required">Last Seen Location</label>
+              <input type="text" id="lostLocation" class="form-control" placeholder="e.g., Library 2nd Floor, Classroom B-204" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="lostDate" class="required">Date Lost</label>
+              <input type="date" id="lostDate" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="lostTime" class="required">Approximate Time</label>
+              <input type="time" id="lostTime" class="form-control" required>
+            </div>
+          </form>
+        </div>
+        
+        <div class="report-form">
+          <form id="lostItemForm2">
+            <div class="image-upload-container">
+              <label class="required">Upload Photo (Optional but helpful)</label>
+              <div class="image-upload-area" id="lostImageUpload">
+                <div class="upload-icon">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <p>Drag & drop an image here, or</p>
+                <button type="button" class="browse-btn" onclick="document.getElementById('lostImageInput').click()">Browse Files</button>
+                <p class="file-info">Supports JPG, PNG, GIF (Max 5MB)</p>
+                <input type="file" id="lostImageInput" class="file-input" accept="image/*">
+              </div>
+              
+              <div class="image-preview" id="lostImagePreview">
+                <img class="preview-image" id="lostPreviewImage">
+                <button type="button" class="remove-image" id="removeLostImage">Remove Image</button>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="lostDescription" class="required">Description</label>
+              <textarea id="lostDescription" class="form-control" placeholder="Describe the item in detail, including brand, color, size, any identifying marks, serial numbers, etc." required></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="lostContactEmail" class="required">Your Email</label>
+              <input type="email" id="lostContactEmail" class="form-control" placeholder="you@college.edu" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="lostContactPhone">Phone Number (Optional)</label>
+              <input type="tel" id="lostContactPhone" class="form-control" placeholder="+91 9876543210">
+            </div>
+            
+            <button type="submit" class="submit-btn lost" form="lostItemForm">
+              <i class="fas fa-paper-plane"></i> Report Lost Item
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Found Item Form -->
+    <div class="forms-container" id="foundFormContainer">
+      <div class="form-header">
+        <h2><i class="fas fa-check-circle" style="color: var(--success);"></i> Report Found Item</h2>
+        <button class="close-form" id="closeFoundForm">&times;</button>
+      </div>
+      
+      <div class="form-grid">
+        <div class="report-form">
+          <form id="foundItemForm">
+            <div class="form-group">
+              <label for="foundItemName" class="required">Item Name</label>
+              <input type="text" id="foundItemName" class="form-control" placeholder="e.g., Wallet, Phone, Book" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="foundCategory" class="required">Category</label>
+              <select id="foundCategory" class="form-control select" required>
+                <option value="" disabled selected>Select category</option>
+                <option value="electronics">Electronics</option>
+                <option value="books">Books & Notes</option>
+                <option value="accessories">Accessories</option>
+                <option value="id">ID Cards/Documents</option>
+                <option value="clothing">Clothing</option>
+                <option value="keys">Keys</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="foundLocation" class="required">Found Location</label>
+              <input type="text" id="foundLocation" class="form-control" placeholder="e.g., Hostel C Cafeteria, Sports Ground" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="foundDate" class="required">Date Found</label>
+              <input type="date" id="foundDate" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="foundTime" class="required">Approximate Time</label>
+              <input type="time" id="foundTime" class="form-control" required>
+            </div>
+          </form>
+        </div>
+        
+        <div class="report-form">
+          <form id="foundItemForm2">
+            <div class="image-upload-container">
+              <label class="required">Upload Photo (Highly recommended)</label>
+              <div class="image-upload-area" id="foundImageUpload">
+                <div class="upload-icon">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <p>Drag & drop an image here, or</p>
+                <button type="button" class="browse-btn" onclick="document.getElementById('foundImageInput').click()">Browse Files</button>
+                <p class="file-info">Supports JPG, PNG, GIF (Max 5MB)</p>
+                <input type="file" id="foundImageInput" class="file-input" accept="image/*">
+              </div>
+              
+              <div class="image-preview" id="foundImagePreview">
+                <img class="preview-image" id="foundPreviewImage">
+                <button type="button" class="remove-image" id="removeFoundImage">Remove Image</button>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="foundDescription" class="required">Description</label>
+              <textarea id="foundDescription" class="form-control" placeholder="Describe the item's condition, any identifying marks, contents (if wallet/bag), etc." required></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="foundContactEmail" class="required">Your Email</label>
+              <input type="email" id="foundContactEmail" class="form-control" placeholder="you@college.edu" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="foundContactPhone">Phone Number (Optional)</label>
+              <input type="tel" id="foundContactPhone" class="form-control" placeholder="+91 9876543210">
+            </div>
+            
+            <div class="form-group">
+              <label for="storageLocation">Current Storage Location (Optional)</label>
+              <input type="text" id="storageLocation" class="form-control" placeholder="e.g., With security, in my room, etc.">
+            </div>
+            
+            <button type="submit" class="submit-btn found" form="foundItemForm">
+              <i class="fas fa-paper-plane"></i> Report Found Item
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="emptyState">
+      <div class="empty-state-icon">
+        <i class="fas fa-search"></i>
+      </div>
+      <h3>No Reports Yet</h3>
+      <p>Be the first to help the campus community! Report a lost item you're looking for, or report an item you've found to help return it to its owner.</p>
+      <p>Click on either button above to get started.</p>
+    </div>
+  </div>
+
+  <script>
+    // DOM Elements
+    const reportLostBtn = document.getElementById('reportLostBtn');
+    const reportFoundBtn = document.getElementById('reportFoundBtn');
+    const lostFormContainer = document.getElementById('lostFormContainer');
+    const foundFormContainer = document.getElementById('foundFormContainer');
+    const closeLostForm = document.getElementById('closeLostForm');
+    const closeFoundForm = document.getElementById('closeFoundForm');
+    const emptyState = document.getElementById('emptyState');
+    
+    // Form elements
+    const lostItemForm = document.getElementById('lostItemForm');
+    const foundItemForm = document.getElementById('foundItemForm');
+    
+    // Image upload elements
+    const lostImageUpload = document.getElementById('lostImageUpload');
+    const foundImageUpload = document.getElementById('foundImageUpload');
+    const lostImageInput = document.getElementById('lostImageInput');
+    const foundImageInput = document.getElementById('foundImageInput');
+    const lostImagePreview = document.getElementById('lostImagePreview');
+    const foundImagePreview = document.getElementById('foundImagePreview');
+    const lostPreviewImage = document.getElementById('lostPreviewImage');
+    const foundPreviewImage = document.getElementById('foundPreviewImage');
+    const removeLostImage = document.getElementById('removeLostImage');
+    const removeFoundImage = document.getElementById('removeFoundImage');
+    
+    // Variables
+    let lostImageFile = null;
+    let foundImageFile = null;
+    
+    // Show Lost Form
+    reportLostBtn.addEventListener('click', function() {
+      lostFormContainer.classList.add('active');
+      foundFormContainer.classList.remove('active');
+      emptyState.style.display = 'none';
+      setDefaultDates();
+    });
+    
+    // Show Found Form
+    reportFoundBtn.addEventListener('click', function() {
+      foundFormContainer.classList.add('active');
+      lostFormContainer.classList.remove('active');
+      emptyState.style.display = 'none';
+      setDefaultDates();
+    });
+    
+    // Close Lost Form
+    closeLostForm.addEventListener('click', function() {
+      lostFormContainer.classList.remove('active');
+      emptyState.style.display = 'block';
+      resetLostForm();
+    });
+    
+    // Close Found Form
+    closeFoundForm.addEventListener('click', function() {
+      foundFormContainer.classList.remove('active');
+      emptyState.style.display = 'block';
+      resetFoundForm();
+    });
+    
+    // Set default dates
+    function setDefaultDates() {
+      const today = new Date().toISOString().split('T')[0];
+      const now = new Date();
+      const currentTime = now.getHours().toString().padStart(2, '0') + ':' + 
+                         now.getMinutes().toString().padStart(2, '0');
+      
+      // Set for lost form
+      document.getElementById('lostDate').value = today;
+      document.getElementById('lostTime').value = currentTime;
+      
+      // Set for found form
+      document.getElementById('foundDate').value = today;
+      document.getElementById('foundTime').value = currentTime;
+      
+      // Set max dates to today
+      document.getElementById('lostDate').max = today;
+      document.getElementById('foundDate').max = today;
+    }
+    
+    // Reset Lost Form
+    function resetLostForm() {
+      lostItemForm.reset();
+      lostImagePreview.classList.remove('active');
+      lostImageFile = null;
+      lostImageInput.value = '';
+    }
+    
+    // Reset Found Form
+    function resetFoundForm() {
+      foundItemForm.reset();
+      foundImagePreview.classList.remove('active');
+      foundImageFile = null;
+      foundImageInput.value = '';
+    }
+    
+    // Lost Image Upload Handling
+    lostImageUpload.addEventListener('click', function() {
+      lostImageInput.click();
+    });
+    
+    lostImageInput.addEventListener('change', function(e) {
+      handleImageUpload(e, 'lost');
+    });
+    
+    // Found Image Upload Handling
+    foundImageUpload.addEventListener('click', function() {
+      foundImageInput.click();
+    });
+    
+    foundImageInput.addEventListener('change', function(e) {
+      handleImageUpload(e, 'found');
+    });
+    
+    // Handle Image Upload
+    function handleImageUpload(event, formType) {
+      const file = event.target.files[0];
+      
+      if (!file) return;
+      
+      // Check file type
+      if (!file.type.match('image.*')) {
+        alert('Please select an image file (JPG, PNG, GIF).');
+        return;
+      }
+      
+      // Check file size (5MB max)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size should be less than 5MB.');
+        return;
+      }
+      
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+        if (formType === 'lost') {
+          lostPreviewImage.src = e.target.result;
+          lostImagePreview.classList.add('active');
+          lostImageFile = file;
+        } else {
+          foundPreviewImage.src = e.target.result;
+          foundImagePreview.classList.add('active');
+          foundImageFile = file;
+        }
+      };
+      
+      reader.readAsDataURL(file);
+    }
+    
+    // Remove Lost Image
+    removeLostImage.addEventListener('click', function() {
+      lostImagePreview.classList.remove('active');
+      lostImageFile = null;
+      lostImageInput.value = '';
+    });
+    
+    // Remove Found Image
+    removeFoundImage.addEventListener('click', function() {
+      foundImagePreview.classList.remove('active');
+      foundImageFile = null;
+      foundImageInput.value = '';
+    });
+    
+    // Drag and drop functionality
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      lostImageUpload.addEventListener(eventName, preventDefaults, false);
+      foundImageUpload.addEventListener(eventName, preventDefaults, false);
+    });
+    
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
+    ['dragenter', 'dragover'].forEach(eventName => {
+      lostImageUpload.addEventListener(eventName, highlight, false);
+      foundImageUpload.addEventListener(eventName, highlight, false);
+    });
+    
+    ['dragleave', 'drop'].forEach(eventName => {
+      lostImageUpload.addEventListener(eventName, unhighlight, false);
+      foundImageUpload.addEventListener(eventName, unhighlight, false);
+    });
+    
+    function highlight(e) {
+      e.currentTarget.classList.add('dragover');
+    }
+    
+    function unhighlight(e) {
+      e.currentTarget.classList.remove('dragover');
+    }
+    
+    // Handle drop
+    lostImageUpload.addEventListener('drop', handleDrop, false);
+    foundImageUpload.addEventListener('drop', handleDrop, false);
+    
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      const formType = e.currentTarget.id === 'lostImageUpload' ? 'lost' : 'found';
+      
+      if (files.length > 0) {
+        const file = files[0];
+        const event = { target: { files: [file] } };
+        handleImageUpload(event, formType);
+      }
+    }
+    
+    // Form Submission
+    lostItemForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      submitLostItem();
+    });
+    
+    foundItemForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      submitFoundItem();
+    });
+    
+    // Submit Lost Item
+    function submitLostItem() {
+      // Get form values
+      const itemName = document.getElementById('lostItemName').value;
+      const category = document.getElementById('lostCategory').value;
+      const location = document.getElementById('lostLocation').value;
+      const date = document.getElementById('lostDate').value;
+      const time = document.getElementById('lostTime').value;
+      const description = document.getElementById('lostDescription').value;
+      const email = document.getElementById('lostContactEmail').value;
+      const phone = document.getElementById('lostContactPhone').value;
+      
+      // Validate required fields
+      if (!itemName || !category || !location || !date || !time || !description || !email) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      
+      // Validate email
+      if (!validateEmail(email)) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+      
+      // Prepare data
+      const lostItemData = {
+        type: 'lost',
+        itemName: itemName,
+        category: category,
+        location: location,
+        date: date,
+        time: time,
+        description: description,
+        contact: {
+          email: email,
+          phone: phone || 'Not provided'
+        },
+        image: lostImageFile ? 'Uploaded' : 'No image',
+        timestamp: new Date().toISOString()
+      };
+      
+      // In a real app, you would send this to a server
+      console.log('Lost item reported:', lostItemData);
+      
+      // Store in localStorage for demo
+      const reports = JSON.parse(localStorage.getItem('lostFoundReports') || '[]');
+      reports.push(lostItemData);
+      localStorage.setItem('lostFoundReports', JSON.stringify(reports));
+      
+      // Show success message
+      alert(`Thank you! Your lost item "${itemName}" has been reported. You'll be notified if someone finds it.`);
+      
+      // Reset and close form
+      resetLostForm();
+      lostFormContainer.classList.remove('active');
+      emptyState.style.display = 'block';
+      
+      // Update empty state message
+      updateEmptyState();
+    }
+    
+    // Submit Found Item
+    function submitFoundItem() {
+      // Get form values
+      const itemName = document.getElementById('foundItemName').value;
+      const category = document.getElementById('foundCategory').value;
+      const location = document.getElementById('foundLocation').value;
+      const date = document.getElementById('foundDate').value;
+      const time = document.getElementById('foundTime').value;
+      const description = document.getElementById('foundDescription').value;
+      const email = document.getElementById('foundContactEmail').value;
+      const phone = document.getElementById('foundContactPhone').value;
+      const storage = document.getElementById('storageLocation').value;
+      
+      // Validate required fields
+      if (!itemName || !category || !location || !date || !time || !description || !email) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      
+      // Validate email
+      if (!validateEmail(email)) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+      
+      // Prepare data
+      const foundItemData = {
+        type: 'found',
+        itemName: itemName,
+        category: category,
+        location: location,
+        date: date,
+        time: time,
+        description: description,
+        contact: {
+          email: email,
+          phone: phone || 'Not provided'
+        },
+        storageLocation: storage || 'Not specified',
+        image: foundImageFile ? 'Uploaded' : 'No image',
+        timestamp: new Date().toISOString()
+      };
+      
+      // In a real app, you would send this to a server
+      console.log('Found item reported:', foundItemData);
+      
+      // Store in localStorage for demo
+      const reports = JSON.parse(localStorage.getItem('lostFoundReports') || '[]');
+      reports.push(foundItemData);
+      localStorage.setItem('lostFoundReports', JSON.stringify(reports));
+      
+      // Show success message
+      alert(`Thank you for your honesty! The found item "${itemName}" has been reported. The owner will be notified if we find a match.`);
+      
+      // Reset and close form
+      resetFoundForm();
+      foundFormContainer.classList.remove('active');
+      emptyState.style.display = 'block';
+      
+      // Update empty state message
+      updateEmptyState();
+    }
+    
+    // Validate email
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+    
+    // Update empty state based on stored reports
+    function updateEmptyState() {
+      const reports = JSON.parse(localStorage.getItem('lostFoundReports') || '[]');
+      
+      if (reports.length > 0) {
+        // In a real app, you would show the reports here
+        // For now, just update the message
+        document.querySelector('.empty-state p').textContent = 
+          `There are currently ${reports.length} active reports in the system.`;
+      }
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      setDefaultDates();
+      updateEmptyState();
+    });
+  </script>
+</body>
+</html>

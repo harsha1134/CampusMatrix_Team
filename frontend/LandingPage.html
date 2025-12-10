@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusMatrix - Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    :root {
+      --jet-stream: #BDD9D7;
+      --blue-whale: #03363D;
+      --light-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-light: #64748b;
+      --accent: #0ea5e9;
+      --progress-fill: #10b981;
+    }
+    
+    body {
+      background-color: var(--light-bg);
+      color: var(--blue-whale);
+      line-height: 1.6;
+    }
+    
+    /* Header & Navigation */
+    header {
+      background-color: var(--blue-whale);
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(3, 54, 61, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--jet-stream);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo i {
+      color: var(--jet-stream);
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+    
+    nav ul li a {
+      color: var(--jet-stream);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+    
+    nav ul li a:hover {
+      background-color: rgba(189, 217, 215, 0.15);
+    }
+    
+    .auth-buttons {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .btn {
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+    
+    .btn-primary {
+      background-color: var(--jet-stream);
+      color: var(--blue-whale);
+      border: none;
+    }
+    
+    .btn-primary:hover {
+      background-color: #a8cfcb;
+      transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--jet-stream);
+      border: 2px solid var(--jet-stream);
+    }
+    
+    .btn-secondary:hover {
+      background-color: rgba(189, 217, 215, 0.1);
+    }
+    
+    /* Hero Section */
+    .hero {
+      padding: 100px 50px;
+      background: linear-gradient(135deg, var(--blue-whale) 0%, #05454d 100%);
+      color: var(--jet-stream);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 40px;
+      color: rgba(189, 217, 215, 0.9);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    
+    .hero .btn {
+      padding: 14px 32px;
+      font-size: 1.1rem;
+      min-width: 180px;
+    }
+    
+    /* Features Section */
+    .features {
+      padding: 100px 50px;
+      background-color: var(--light-bg);
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 60px;
+      color: var(--blue-whale);
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .feature-card {
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      padding: 40px 30px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(189, 217, 215, 0.5);
+      transition: all 0.3s;
+      text-align: center;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      background-color: var(--jet-stream);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 25px;
+      color: var(--blue-whale);
+      font-size: 28px;
+    }
+    
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--blue-whale);
+    }
+    
+    .feature-card p {
+      color: var(--text-light);
+      font-size: 1rem;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--blue-whale);
+      color: var(--jet-stream);
+      padding: 60px 50px 30px;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+    }
+    
+    .footer-column h3 {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      color: var(--jet-stream);
+    }
+    
+    .footer-column ul {
+      list-style: none;
+    }
+    
+    .footer-column ul li {
+      margin-bottom: 12px;
+    }
+    
+    .footer-column ul li a {
+      color: rgba(189, 217, 215, 0.8);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-column ul li a:hover {
+      color: var(--jet-stream);
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid rgba(189, 217, 215, 0.2);
+      color: rgba(189, 217, 215, 0.7);
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+      
+      .features, .hero {
+        padding: 80px 30px;
+      }
+      
+      header {
+        padding: 20px 30px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+      }
+      
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .hero .btn {
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .features {
+        padding: 60px 20px;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      footer {
+        padding: 50px 20px 30px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .auth-buttons {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <i class="fas fa-university"></i>
+      <span>CampusMatrix</span>
+    </div>
+    
+    <nav>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    
+    <div class="auth-buttons">
+      <a href="login.html" class="btn btn-secondary">Login</a>
+      <a href="register.html" class="btn btn-primary">Register</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Welcome to CampusMatrix</h1>
+      <p>A unified student community platform designed to enhance campus life. Connect, collaborate, and thrive with fellow students.</p>
+      <div class="hero-buttons">
+        <a href="register.html" class="btn btn-primary">Get Started Free</a>
+        <a href="#features" class="btn btn-secondary">Explore Features</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <h2 class="section-title">Platform Features</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-store"></i>
+        </div>
+        <h3>Campus Marketplace</h3>
+        <p>Buy and sell textbooks, electronics, and other items within your campus community safely and conveniently.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <h3>Lost & Found</h3>
+        <p>Report lost items or help others find their belongings with our smart matching system.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <h3>Study Partner Finder</h3>
+        <p>Connect with students in your courses to form study groups and collaborate on projects.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <h3>Events & Calendar</h3>
+        <p>Stay updated with campus events, workshops, hackathons, and important academic dates.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-comments"></i>
+        </div>
+        <h3>Real-time Chat</h3>
+        <p>Communicate instantly with classmates, study groups, and campus organizations.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-user-friends"></i>
+        </div>
+        <h3>Explore People</h3>
+        <p>Discover and connect with students, alumni, and faculty across different departments.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>CampusMatrix</h3>
+        <p>Empowering student communities through technology and collaboration.</p>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="dashboard.html">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="register.html">Register</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Contact Us</h3>
+        <ul>
+          <li><i class="fas fa-envelope"></i> support@CampusMatrix.edu</li>
+          <li><i class="fas fa-phone"></i> +91 XXXXXXXXXX</li>
+          <li><i class="fas fa-map-marker-alt"></i> University Campus Name, City</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>&copy; 2024 CampusMatrix. All rights reserved. Designed for student engagement.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusMatrix - Register</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    :root {
+      --jet-stream: #BDD9D7;
+      --blue-whale: #03363D;
+      --light-blue: #0ea5e9;
+      --light-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-light: #64748b;
+      --input-border: #cbd5e1;
+      --success: #10b981;
+      --error: #ef4444;
+    }
+    
+    body {
+      background-color: var(--light-bg);
+      color: var(--blue-whale);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Split Screen Container */
+    .split-container {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Left Side - Brand & Visuals */
+    .left-side {
+      flex: 1;
+      background: linear-gradient(135deg, var(--blue-whale) 0%, #05454d 100%);
+      color: var(--jet-stream);
+      padding: 60px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .left-side::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') center/cover;
+      opacity: 0.15;
+    }
+    
+    .logo {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .logo span {
+      color: var(--jet-stream);
+    }
+    
+    .welcome-text {
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .welcome-text h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+    
+    .welcome-text p {
+      font-size: 1.1rem;
+      color: rgba(189, 217, 215, 0.9);
+      max-width: 500px;
+    }
+    
+    .features {
+      margin-top: 40px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 25px;
+      gap: 15px;
+    }
+    
+    .feature-icon {
+      width: 50px;
+      height: 50px;
+      background-color: rgba(189, 217, 215, 0.15);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: var(--jet-stream);
+    }
+    
+    .feature-text h4 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+    
+    .feature-text p {
+      font-size: 0.95rem;
+      color: rgba(189, 217, 215, 0.8);
+    }
+    
+    /* Right Side - Form */
+    .right-side {
+      flex: 1.2;
+      background-color: var(--card-bg);
+      padding: 40px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow-y: auto;
+    }
+    
+    .form-container {
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    
+    .form-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .form-header h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: var(--blue-whale);
+    }
+    
+    .form-header p {
+      color: var(--text-light);
+      font-size: 1rem;
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--blue-whale);
+    }
+    
+    .input-with-icon {
+      position: relative;
+    }
+    
+    .input-with-icon i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 15px 15px 15px 50px;
+      border: 2px solid var(--input-border);
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s;
+      background-color: white;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--jet-stream);
+      box-shadow: 0 0 0 3px rgba(189, 217, 215, 0.3);
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .select-wrapper {
+      position: relative;
+    }
+    
+    .select-wrapper i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      pointer-events: none;
+    }
+    
+    .form-select {
+      width: 100%;
+      padding: 15px 15px 15px 50px;
+      border: 2px solid var(--input-border);
+      border-radius: 10px;
+      font-size: 1rem;
+      background-color: white;
+      color: var(--blue-whale);
+      cursor: pointer;
+      appearance: none;
+    }
+    
+    .form-select:focus {
+      outline: none;
+      border-color: var(--jet-stream);
+      box-shadow: 0 0 0 3px rgba(189, 217, 215, 0.3);
+    }
+
+    
+    /* Buttons */
+    .btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      margin-top: 10px;
+    }
+    
+    .btn-primary {
+      background-color: var(--jet-stream);
+      color: var(--blue-whale);
+    }
+    
+    .btn-primary:hover {
+      background-color: #a8cfcb;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(3, 54, 61, 0.1);
+    }
+    
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--blue-whale);
+      border: 2px solid var(--jet-stream);
+    }
+    
+    .btn-secondary:hover {
+      background-color: rgba(189, 217, 215, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .btn-small {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      width: auto;
+    }
+    
+    .login-link {
+      text-align: center;
+      margin-top: 30px;
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+    
+    .login-link a {
+      color: var(--blue-whale);
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 5px;
+    }
+    
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Password Strength */
+    .password-strength {
+      margin-top: 10px;
+      height: 6px;
+      background-color: var(--input-border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .password-strength-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 3px;
+      transition: width 0.3s, background-color 0.3s;
+    }
+    
+    .password-hint {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-top: 8px;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Back to Home */
+    .back-to-home {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      z-index: 3;
+    }
+    
+    .back-link {
+      color: var(--jet-stream);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+    }
+    
+    .back-link:hover {
+      background-color: rgba(0, 0, 0, 0.3);
+      text-decoration: none;
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      .split-container {
+        flex-direction: column;
+      }
+      
+      .left-side, .right-side {
+        padding: 40px 30px;
+      }
+      
+      .form-container {
+        max-width: 100%;
+      }
+      
+      .back-to-home {
+        top: 20px;
+        left: 20px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      
+      .welcome-text h1 {
+        font-size: 2rem;
+      }
+      
+      .logo {
+        font-size: 2.2rem;
+      }
+      
+      .form-header h2 {
+        font-size: 1.8rem;
+      }
+      
+      .otp-input {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .left-side, .right-side {
+        padding: 30px 20px;
+      }
+      
+      .logo {
+        font-size: 1.8rem;
+      }
+      
+      .welcome-text h1 {
+        font-size: 1.6rem;
+      }
+      
+      .form-header h2 {
+        font-size: 1.5rem;
+      }
+      
+      .back-to-home {
+        top: 15px;
+        left: 15px;
+      }
+      
+      .back-link {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+      
+      .feature-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Split Screen Container -->
+  <div class="split-container">
+    <!-- Left Side - Brand & Visuals -->
+    <div class="left-side">
+      <div class="back-to-home">
+        <a href="LandingPage.html" class="back-link">
+          <i class="fas fa-arrow-left"></i>
+          Back to Home
+        </a>
+      </div>
+      
+      <div class="logo">
+        <i class="fas fa-university"></i>
+        <span>CampusMatrix</span>
+      </div>
+      
+      <div class="welcome-text">
+        <h1>Join Our Campus Community</h1>
+        <p>Connect with fellow students, access campus resources, and enhance your university experience.</p>
+      </div>
+      
+      <div class="features">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-store"></i>
+          </div>
+          <div class="feature-text">
+            <h4>Campus Marketplace</h4>
+            <p>Buy and sell textbooks, electronics, and more within your campus</p>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="feature-text">
+            <h4>Study Partner Finder</h4>
+            <p>Connect with students in your courses for study groups</p>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <div class="feature-text">
+            <h4>Events & Activities</h4>
+            <p>Stay updated with campus events, workshops, and deadlines</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Right Side - Registration Form -->
+    <div class="right-side">
+      <div class="form-container">
+        <div class="form-header">
+          <h2>Create Your Account</h2>
+          <p>Fill in your details to join CampusMatrix</p>
+        </div>
+        
+        <form id="registrationForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fullName">Full Name</label>
+              <div class="input-with-icon">
+                <i class="fas fa-user"></i>
+                <input type="text" id="fullName" class="form-control" placeholder="Enter your full name" required>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="studentId">Student ID</label>
+              <div class="input-with-icon">
+                <i class="fas fa-id-card"></i>
+                <input type="text" id="studentId" class="form-control" placeholder="Enter student ID" required>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="collegeEmail">College Email</label>
+            <div class="input-with-icon">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="collegeEmail" class="form-control" placeholder="student@college.edu" required>
+              <div class="password-hint">We'll send a verification OTP to this email</div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="personalEmail">Personal Email (Optional)</label>
+            <div class="input-with-icon">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="personalEmail" class="form-control" placeholder="personal@email.com">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="year">Academic Year</label>
+              <div class="select-wrapper">
+                <i class="fas fa-calendar-alt"></i>
+                <select id="year" class="form-select" required>
+                  <option value="" disabled selected>Select year</option>
+                  <option value="1">First Year</option>
+                  <option value="2">Second Year</option>
+                  <option value="3">Third Year</option>
+                  <option value="4">Fourth Year</option>
+                  <option value="5">Fifth Year</option>
+                  <option value="PG">Post Graduate</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="department">Department</label>
+              <div class="select-wrapper">
+                <i class="fas fa-graduation-cap"></i>
+                <select id="department" class="form-select" required>
+                  <option value="" disabled selected>Select department</option>
+                  <option value="cse">Computer Science</option>
+                  <option value="ece">Electronics & Communication</option>
+                  <option value="mech">Mechanical Engineering</option>
+                  <option value="civil">Civil Engineering</option>
+                  <option value="eee">Electrical Engineering</option>
+                  <option value="it">Information Technology</option>
+                  <option value="mba">Business Administration</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-with-icon">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="password" class="form-control" placeholder="Create a strong password" required minlength="8">
+            </div>
+            <div class="password-strength">
+              <div class="password-strength-bar" id="passwordStrengthBar"></div>
+            </div>
+            <div class="password-hint">Use at least 8 characters with letters, numbers, and symbols</div>
+          </div>
+          
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <div class="input-with-icon">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="confirmPassword" class="form-control" placeholder="Re-enter your password" required>
+            </div>
+          </div>
+          
+         
+          
+          <button type="submit" id="submitBtn" class="btn btn-primary">Register & Send OTP</button>
+        </form>
+        
+        <div class="login-link">
+          Already have an account? <a href="login.html">Login here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Form submission
+  registrationForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // Basic validation
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+  const collegeEmail = document.getElementById('collegeEmail').value;
+  
+  // Check if passwords match
+  if (password !== confirmPassword) {
+    alert('Passwords do not match. Please try again.');
+    return;
+  }
+  
+  // Check password strength
+  if (password.length < 8) {
+    alert('Password must be at least 8 characters long.');
+    return;
+  }
+  
+  // Check if college email looks valid
+  if (!collegeEmail.includes('@') || !collegeEmail.includes('.')) {
+    alert('Please enter a valid college email address.');
+    return;
+  }
+  
+  // Map to backend - EXACT field names as in RegisterRequest
+  const registrationData = {
+    fullName: document.getElementById('fullName').value,
+    studentId: document.getElementById('studentId').value,
+    collegeEmail: collegeEmail,  // Must match backend field name
+    personalEmail: document.getElementById('personalEmail').value || null,
+    year: document.getElementById('year').value,  // Must match backend field name
+    department: document.getElementById('department').value,
+    phoneNumber: document.getElementById('phoneNumber').value || null,
+    password: password
+  };
+  
+  console.log('Sending:', registrationData); // Debug log
+  
+  // Send directly to backend (no localStorage for now)
+  fetch('http://localhost:8080/api/auth/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(registrationData)
+  })
+  .then(response => {
+    if (!response.ok) {
+      return response.json().then(err => { 
+        throw new Error(err.message || 'Registration failed'); 
+      });
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Registration successful:', data);
+    alert('Registration successful!');
+    
+    // Save token and user data
+    localStorage.setItem('authToken', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    
+    // Redirect to dashboard or OTP page
+    window.location.href = 'otp-verify.html'; // If you want OTP flow
+  })
+  .catch(error => {
+    console.error('Registration error:', error);
+    alert('Registration failed: ' + error.message);
+  });
+});
+  </script>
+</body>
+</html>
