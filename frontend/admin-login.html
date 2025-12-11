@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CampusMatrix - Admin Login</title>
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root{
+    --jet-stream:#BDD9D7;
+    --blue-whale:#03363D;
+    --light-bg:#f8fafc;
+    --card-bg:#fff;
+    --text-light:#64748b;
+    --input-border:#cbd5e1;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Verdana,Arial;}
+
+  body{
+    display:flex;
+    min-height:100vh;
+    background:var(--light-bg);
+  }
+
+  .left{
+    flex:1;
+    background:linear-gradient(135deg,#03363D,#05505a);
+    color:var(--jet-stream);
+    padding:60px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+
+  .left .logo{
+    font-size:2.4rem;
+    font-weight:700;
+    display:flex;
+    gap:12px;
+    align-items:center;
+  }
+
+  .right{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:60px;
+  }
+
+  .card{
+    background:white;
+    width:430px;
+    padding:35px;
+    border-radius:12px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.08);
+  }
+
+  h2{text-align:center;margin-bottom:6px;color:var(--blue-whale);}
+  p{text-align:center;color:var(--text-light);margin-bottom:22px;}
+
+  label{font-weight:600;display:block;margin-bottom:6px;color:var(--blue-whale)}
+
+  .input-box{
+    position:relative;
+    margin-bottom:18px;
+  }
+
+  .input-box i{
+    position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-light);
+  }
+
+  .input-box input{
+    width:100%;
+    padding:14px 14px 14px 44px;
+    border:2px solid var(--input-border);
+    border-radius:10px;
+    font-size:1rem;
+  }
+
+  .btn{
+    width:100%;
+    padding:14px;
+    background:var(--jet-stream);
+    border:none;
+    border-radius:10px;
+    color:var(--blue-whale);
+    font-size:1rem;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:10px;
+  }
+
+  .link{
+    text-align:center;
+    margin-top:15px;
+  }
+
+  .link a{
+    text-decoration:none;
+    color:var(--blue-whale);
+    font-weight:600;
+  }
+</style>
+</head>
+
+<body>
+
+  <!-- LEFT SECTION -->
+  <div class="left">
+    <div class="logo"><i class="fas fa-user-shield"></i> Admin Panel</div>
+    <h1 style="margin-top:25px;">CampusMatrix Administration</h1>
+    <p style="max-width:360px;margin-top:12px;">
+      Secure access for platform administrators to manage users and operations.
+    </p>
+  </div>
+
+  <!-- RIGHT SECTION -->
+  <div class="right">
+    <div class="card">
+
+      <h2>Admin Login</h2>
+      <p>Enter your admin credentials</p>
+
+      <form id="adminLoginForm">
+        <label>Email</label>
+        <div class="input-box">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="adminEmail" placeholder="admin@campus.edu" required>
+        </div>
+
+        <label>Password</label>
+        <div class="input-box">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="adminPassword" placeholder="Enter password" required>
+        </div>
+
+        <button class="btn" type="submit">Sign In</button>
+
+        <div class="link">
+          <a href="login.html">Login as Student</a>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+
+<!-- LOGIN SCRIPT -->
+<script>
+document.getElementById("adminLoginForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const email = document.getElementById("adminEmail").value.trim();
+    const password = document.getElementById("adminPassword").value;
+
+    // Demo Admin Credentials (change later)
+    const ADMIN_EMAIL = "admin@campus.edu";
+    const ADMIN_PASSWORD = "AdminPass123";
+
+    if(email === ADMIN_EMAIL && password === ADMIN_PASSWORD){
+        // Store login session
+        localStorage.setItem("cm_admin", JSON.stringify({
+            email: email,
+            loggedAt: new Date().toISOString()
+        }));
+
+        // Redirect to dashboard
+        window.location.href = "admin-dashboard.html";
+    }
+    else{
+        alert("Invalid admin login.\nTry: admin@campus.edu / AdminPass123");
+    }
+});
+</script>
+
+</body>
+</html>
